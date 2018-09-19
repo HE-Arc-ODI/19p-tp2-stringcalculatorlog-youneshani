@@ -1,6 +1,5 @@
 package ch.hearc.ig.odi.stringcalculatortdd;
 
-import ch.hearc.ig.odi.stringcalculatortdd.console.StringCalculator;
 import org.junit.Assert;
 import org.junit.Test;
 

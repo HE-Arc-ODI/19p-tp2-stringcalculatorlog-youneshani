@@ -1,4 +1,4 @@
-package ch.hearc.ig.odi.stringcalculatortdd.console;
+package ch.hearc.ig.odi.stringcalculatortdd;
 
 import java.util.ArrayList;
 import java.util.List;
