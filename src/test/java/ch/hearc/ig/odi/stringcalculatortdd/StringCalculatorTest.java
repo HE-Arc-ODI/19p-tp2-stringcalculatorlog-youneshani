@@ -1,73 +1,76 @@
 package ch.hearc.ig.odi.stringcalculatortdd;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class StringCalculatorTest {
 
-    //Requirement 1
+    private StringCalculator sc;
 
-    //this test is deleted at requirement 4
-//    @Test(expected = RuntimeException.class)
-//    public void whenMoreThan2NumbersAreUsedThenExceptionIsThrown() {
-//        StringCalculator.add("1,2,3");
+    //maybe to delete
+//    @Test
+//    public void when2NumbersAreUsedThenNoExceptionIsThrown() {
+//        StringCalculator.add("1,2");
+//        Assert.assertTrue("When 2 numbers are used, there is no exception", true);
 //    }
-    @Test
-    public void when2NumbersAreUsedThenNoExceptionIsThrown() {
-        StringCalculator.add("1,2");
-        Assert.assertTrue("When 2 numbers are used, there is no exception", true);
-    }
-    @Test(expected = RuntimeException.class)
-    public void whenNonNumberIsUsedThenExceptionIsThrown() {
-        StringCalculator.add("1,X");
+//    @Test(expected = RuntimeException.class)
+//    public void whenNonNumberIsUsedThenExceptionIsThrown() {
+//        StringCalculator.add("1,X");
+//    }
+
+    @Before
+    public void setup() {
+        this.sc = new StringCalculator();
     }
 
-    //Requirement 2
+    //Requirement 1.1
     @Test
     public void whenStringIsEmptyThenZero() {
-        Assert.assertEquals("When the string is empty then zero is returned", 0, StringCalculator.add(""));
+        Assert.assertEquals("When the string is empty then zero is returned", 0, this.sc.add(""));
+    }
+
+    // Requirement 1.2
+    @Test
+    public void whenOneNumberIsUsedThenReturnValueIsThatSameNumber() {
+        Assert.assertEquals("When a single number is used, the value returned is the number himself",4, this.sc.add("4"));
+    }
+
+    // Requirement 1.3
+    @Test
+    public void whenTwoNumbersAreUsedThenReturnValueIsTheirSum() {
+        Assert.assertEquals("When two number are used, the value returned is their sum", 7, this.sc.add("3,4"));
+    }
+
+    // Requirement 2
+    @Test
+    public void whenAnyNumberOfNumbersIsUsedThenReturnValuesAreTheirSums() {
+        Assert.assertEquals("When multiple numbers are used, the value returned is their sum", 3+6+15+18+46+33, this.sc.add("3,6,15,18,46,33"));
     }
 
     // Requirement 3
     @Test
-    public void whenOneNumberIsUsedThenReturnValueIsThatSameNumber() {
-        Assert.assertEquals("When a single number is used, the value returned is the number himself",4, StringCalculator.add("4"));
-    }
-
-    @Test
-    public void whenTwoNumbersAreUsedThenReturnValueIsTheirSum() {
-        Assert.assertEquals("When two number are used, the value returned is their sum", 7, StringCalculator.add("3,4"));
+    public void whenNewLineIsUsedBetweenNumbersThenReturnValuesAreTheirSums() {
+        Assert.assertEquals("When a new line is used between numbers, the value returned is their sum", 3+7+8, this.sc.add("3,7\n8"));
     }
 
     // Requirement 4
     @Test
-    public void whenAnyNumberOfNumbersIsUsedThenReturnValuesAreTheirSums() {
-        Assert.assertEquals("When multiple numbers are used, the value returned is their sum", 3+6+15+18+46+33, StringCalculator.add("3,6,15,18,46,33"));
+    public void whenDelimiterIsSpecifiedThenItIsUsedToSeparateNumbers() {
+        Assert.assertEquals("When a delimiter is specified, it is used to separate the numbers," +
+                "the value returned is their sum",9+5+2, this.sc.add("//;\n9;5;2"));
     }
 
     // Requirement 5
-    @Test
-    public void whenNewLineIsUsedBetweenNumbersThenReturnValuesAreTheirSums() {
-        Assert.assertEquals("When a new line is used between numbers, the value returned is their sum", 3+7+8, StringCalculator.add("3,7\n8"));
-    }
-
-    // Requirement 6
-    @Test
-    public void whenDelimiterIsSpecifiedThenItIsUsedToSeparateNumbers() {
-        Assert.assertEquals("When a delimiter is specified, it is used to separate the numbers," +
-                "the value returned is their sum",9+5+2, StringCalculator.add("//;\n9;5;2"));
-    }
-
-    // Requirement 7
     @Test(expected = RuntimeException.class)
     public void whenNegativeNumberIsUsedThenRuntimeExceptionIsThrown() {
-        StringCalculator.add("9,3,-2,3");
+        this.sc.add("9,3,-2,3");
     }
     @Test
     public void whenNegativeNumbersAreUsedThenRuntimeExceptionIsThrown() {
         RuntimeException exception = null;
         try {
-            StringCalculator.add("3,4,-2,3,-5,2,-1");
+            this.sc.add("3,4,-2,3,-5,2,-1");
         } catch (RuntimeException e) {
             exception = e;
         }
@@ -75,10 +78,31 @@ public class StringCalculatorTest {
                 "all the negative numbers", "Negative not allowed: [-2, -5, -1]", exception.getMessage());
     }
 
-    // Requirement 8
+    // Requirement 6
     @Test
     public void whenOneOrMoreNumbersAreGreaterThan1000IsUsedThenItIsNotIncludedInSum() {
         Assert.assertEquals("When one or more number are greater than 1000, they are not included" +
-                "in the sum", 1003, StringCalculator.add("1000,1,1001,2,1203"));
+                "in the sum", 1003, this.sc.add("1000,1,1001,2,1203"));
+    }
+
+    // Requirement 7
+    @Test
+    public void whenDelimiterIsGreaterThan1CharacterThenItIsUsedToSeparateNumbers() {
+        Assert.assertEquals("When a delimiter is greater than one character, then it is use to separate numbers",
+                7, this.sc.add("//[\\*\\*\\*]\n3***4"));
+    }
+
+    // Requirement 8
+    @Test
+    public void whenMultipleDelimitersAreUsedThenTheyAreUsedToSeparateNumbers() {
+        Assert.assertEquals("When multiple delimiters are used, then they are used to separate the numbers",
+                10, this.sc.add("//[\\*][:][,]\n1,3*2:4"));
+    }
+
+    // Requirement 9
+    @Test
+    public void whenMultipleDelimitersOfMultipleCharactersAreUsedThenTheyAreUsedToSeparateNumbers() {
+        Assert.assertEquals("When multiple delimiters of multiple characters are used, then they are used to separate the numbers",
+                10, this.sc.add("//[\\*\\*\\*\\*][::::][,,,,]\n1,,,,3****2::::4"));
     }
 }
