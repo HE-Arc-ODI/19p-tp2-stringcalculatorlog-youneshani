@@ -8,17 +8,6 @@ public class StringCalculatorTest {
 
     private StringCalculator sc;
 
-    //maybe to delete
-//    @Test
-//    public void when2NumbersAreUsedThenNoExceptionIsThrown() {
-//        StringCalculator.add("1,2");
-//        Assert.assertTrue("When 2 numbers are used, there is no exception", true);
-//    }
-//    @Test(expected = RuntimeException.class)
-//    public void whenNonNumberIsUsedThenExceptionIsThrown() {
-//        StringCalculator.add("1,X");
-//    }
-
     @Before
     public void setup() {
         this.sc = new StringCalculator();
@@ -66,6 +55,7 @@ public class StringCalculatorTest {
     public void whenNegativeNumberIsUsedThenRuntimeExceptionIsThrown() {
         this.sc.add("9,3,-2,3");
     }
+
     @Test
     public void whenNegativeNumbersAreUsedThenRuntimeExceptionIsThrown() {
         RuntimeException exception = null;
@@ -89,20 +79,20 @@ public class StringCalculatorTest {
     @Test
     public void whenDelimiterIsGreaterThan1CharacterThenItIsUsedToSeparateNumbers() {
         Assert.assertEquals("When a delimiter is greater than one character, then it is use to separate numbers",
-                7, this.sc.add("//[\\*\\*\\*]\n3***4"));
+                7, this.sc.add("//[¢¢¢]\n3¢¢¢4"));
     }
 
     // Requirement 8
     @Test
     public void whenMultipleDelimitersAreUsedThenTheyAreUsedToSeparateNumbers() {
         Assert.assertEquals("When multiple delimiters are used, then they are used to separate the numbers",
-                10, this.sc.add("//[\\*][:][,]\n1,3*2:4"));
+                10, this.sc.add("//[=][:][,]\n1,3=2:4"));
     }
 
     // Requirement 9
     @Test
     public void whenMultipleDelimitersOfMultipleCharactersAreUsedThenTheyAreUsedToSeparateNumbers() {
         Assert.assertEquals("When multiple delimiters of multiple characters are used, then they are used to separate the numbers",
-                10, this.sc.add("//[\\*\\*\\*\\*][::::][,,,,]\n1,,,,3****2::::4"));
+                10, this.sc.add("//[;;;;][::::][,,,,]\n1;;;;3,,,,2::::4"));
     }
 }
