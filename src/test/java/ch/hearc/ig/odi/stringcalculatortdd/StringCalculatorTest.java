@@ -2,6 +2,7 @@ package ch.hearc.ig.odi.stringcalculatortdd;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class StringCalculatorTest {
