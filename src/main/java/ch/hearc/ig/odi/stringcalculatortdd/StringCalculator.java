@@ -10,7 +10,7 @@ public class StringCalculator {
 
     public StringCalculator() {
     }
-    
+
     public int add(final String numbers) {
         //default delimiter
         String delimiter = ",|\n";
