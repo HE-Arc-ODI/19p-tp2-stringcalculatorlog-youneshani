@@ -1,12 +1,15 @@
 package ch.hearc.ig.odi.stringcalculatortdd;
 
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StringCalculator {
+
+    private static final Logger logger= LogManager.getLogger(StringCalculator.class);
 
     public StringCalculator() {
     }
@@ -18,6 +21,8 @@ public class StringCalculator {
 
         //if it begins by '//' then it's a personalize delimiter(s)
         if (numbers.startsWith("//")) {
+            logger.info("Start with //");
+
             delimiter = this.extractDelimiter(numbers);
             //"cut" the beginning of the string so that the personalize delimiter is removed
             numbersUpdated = numbers.substring(numbers.indexOf("\n") + 1);
@@ -40,10 +45,14 @@ public class StringCalculator {
                     negativeNumbers.add(numberInt);
                 else if (numberInt <= 1000)
                     returnValue += numberInt;
+                else {
+                    logger.warn("Warning number > 1000");
+                }
             }
         }
 
         if (negativeNumbers.size() > 0) {
+            logger.fatal("no-negatives number pls");
             throw new RuntimeException("Negative not allowed: " + negativeNumbers.toString());
         }
 
